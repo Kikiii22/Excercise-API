@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: excerciseApi
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: user
+    password: user
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
