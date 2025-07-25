@@ -58,9 +58,12 @@ class Controller(private val service: UserServiceImpl, private val exService: Ex
     }
 
     @GetMapping("/users/{id}/logs")
-    fun getLog(@PathVariable id: UUID): ResponseEntity<Any> {
+    fun getLog(@PathVariable id: UUID,@RequestParam(required = false) from: LocalDate?,
+               @RequestParam(required = false) to: LocalDate?,
+               @RequestParam(required = false) limit: Int?
+               ): ResponseEntity<Any> {
         return try {
-            ResponseEntity.ok(exService.getLogs(id))
+            ResponseEntity.ok(exService.getLogs(id, from, to, limit))
 
         } catch (e: Exception) {
             ResponseEntity.badRequest().body(e.message)

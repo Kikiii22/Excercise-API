@@ -41,14 +41,22 @@ class ExcerciseServiceImpl(private val service: UserServiceImpl, private val exR
 
     }
 
-    override fun getLogs(id: UUID): Logs {
+    override fun getLogs(id: UUID, from: LocalDate?, to: LocalDate?, limit: Int?): Logs {
         val user = this.service.getUserbyId(id)
         val userId = user.id ?: throw IllegalStateException("User id is null")
         val exercises = exRepository.findAllByUserId(userId)
-        val logEntries = exercises.map {
-            LogEntry(it.description, it.duration, it.date)
+        val filtered=exercises.filter { i->
+            val exerciseDate=i.date
+            (from==null||!exerciseDate.isBefore(from))&&(
+                    to==null||!exerciseDate.isAfter(to)
+                    )
+        }.sortedBy { it.date }.map { it->LogEntry(it.description, it.duration, it.date)
+        }.let {
+            lista->if (limit!=null) lista.take(limit)
+            else lista
         }
-        return Logs(user.username, logEntries.size, id, logEntries)
+
+        return Logs(user.username, filtered.size, id, filtered)
     }
 
 

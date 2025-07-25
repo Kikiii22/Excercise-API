@@ -7,5 +7,5 @@ import java.util.UUID
 
 interface ExcerciseInterface {
     fun createExercise(id: UUID,description: String,duration: Long,exerciseDate: LocalDate): ExerciseDto
-    fun getLogs(id: UUID): Logs
+    fun getLogs(id: UUID,from: LocalDate?, to: LocalDate?, limit: Int?): Logs
 }
