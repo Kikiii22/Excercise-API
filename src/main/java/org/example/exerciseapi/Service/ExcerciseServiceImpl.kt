@@ -37,7 +37,7 @@ class ExcerciseServiceImpl(private val service: UserServiceImpl, private val exR
             duration = saved.duration,
             date = saved.date,
             id = saved.id,
-            )
+        )
 
     }
 
@@ -45,14 +45,15 @@ class ExcerciseServiceImpl(private val service: UserServiceImpl, private val exR
         val user = this.service.getUserbyId(id)
         val userId = user.id ?: throw IllegalStateException("User id is null")
         val exercises = exRepository.findAllByUserId(userId)
-        val filtered=exercises.filter { i->
-            val exerciseDate=i.date
-            (from==null||!exerciseDate.isBefore(from))&&(
-                    to==null||!exerciseDate.isAfter(to)
+        val filtered = exercises.filter { i ->
+            val exerciseDate = i.date
+            (from == null || !exerciseDate.isBefore(from)) && (
+                    to == null || !exerciseDate.isAfter(to)
                     )
-        }.sortedBy { it.date }.map { it->LogEntry(it.description, it.duration, it.date)
-        }.let {
-            lista->if (limit!=null) lista.take(limit)
+        }.sortedBy { it.date }.map { it ->
+            LogEntry(it.description, it.duration, it.date)
+        }.let { lista ->
+            if (limit != null) lista.take(limit)
             else lista
         }
 
