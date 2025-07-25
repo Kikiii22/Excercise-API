@@ -10,7 +10,6 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
-import java.util.Date
 
 @Entity
 @Table(name = "exercises")
